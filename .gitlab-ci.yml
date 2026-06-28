@@ -1,0 +1,23 @@
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+    - when: never
+
+stages:
+  - test
+
+e2e-tests:
+  stage: test
+  image: node:24-bookworm
+  before_script:
+    - npm install -g yarn
+    - yarn install --frozen-lockfile
+    - yarn playwright install --with-deps
+  script:
+    - yarn run e2e
+  artifacts:
+    when: always
+    name: "Relatorio de Testes E2E"
+    paths:
+      - playwright-report/
+    expire_in: 7 days
