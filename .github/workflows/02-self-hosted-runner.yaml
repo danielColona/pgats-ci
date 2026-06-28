@@ -1,0 +1,54 @@
+# CI de Nivel 02 - Self-hosted runner
+
+name: 'N2 - Self-hosted Runner'
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  e2e-tests-self-hosted:
+    runs-on: [self-hosted, Windows, X64]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Exibindo ambiente do runner
+        run: |
+          echo "Runner: $env:RUNNER_NAME"
+          echo "Sistema: $env:RUNNER_OS"
+          echo "Maquina: $env:COMPUTERNAME"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+
+      - name: Instalando Yarn
+        run: npm install -g yarn
+
+      - name: Instalando dependencias
+        run: yarn
+
+      - name: Instalando Browsers do Playwright
+        run: yarn playwright install
+
+      - name: Executando testes e2e
+        run: yarn run e2e
+
+      - name: Salvando relatorios de testes
+        uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          path: ./playwright-report
+          name: Relatorio de Testes E2E Self-hosted
+
+      - name: Publicando relatorio JUnit
+        uses: mikepenz/action-junit-report@v6
+        if: ${{ always() }}
+        with:
+          report_paths: results.xml
+          check_name: Relatorio E2E Playwright Self-hosted
+          require_tests: true
