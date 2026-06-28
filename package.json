@@ -5,7 +5,7 @@
   "description": "An example for Mutation Testing",
   "repository": {
     "type": "git",
-    "url": "https://github.com/stryker-mutator/robo-coasters-example"
+    "url": "git+https://github.com/stryker-mutator/robo-coasters-example.git"
   },
   "main": "index.js",
   "scripts": {
@@ -33,5 +33,12 @@
     "prettier": "^3.2.4",
     "typescript": "^5.3.3",
     "whatwg-fetch": "^3.6.20"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "bugs": {
+    "url": "https://github.com/stryker-mutator/robo-coasters-example/issues"
+  },
+  "homepage": "https://github.com/stryker-mutator/robo-coasters-example#readme"
 }

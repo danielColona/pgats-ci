@@ -19,8 +19,8 @@ test.describe(`user rides`, async () => {
       .getByRole('link', { name: 'Choose Robo Coaster Of Doom' })
       .click();
     await page.getByLabel('Amount of people').selectOption('1');
-    await page.getByLabel('Height for person').click();
-    await page.getByLabel('Height for person').fill('139');
+    await page.getByLabel('Height for person 1').click();
+    await page.getByLabel('Height for person 1').fill('139');
     await page.getByRole('button', { name: 'Next' }).click();
     await expect(
       page.getByText('Person 1 is too short for this ride'),
@@ -32,8 +32,8 @@ test.describe(`user rides`, async () => {
       .getByRole('link', { name: 'Choose Robo Coaster Of Doom' })
       .click();
     await page.getByLabel('Amount of people').selectOption('1');
-    await page.getByLabel('Height for person').click();
-    await page.getByLabel('Height for person').fill('141');
+    await page.getByLabel('Height for person 1').click();
+    await page.getByLabel('Height for person 1').fill('141');
     await page.getByRole('button', { name: 'Next' }).click();
     await expect(page.getByText('1 person (>= 141 cm) for the')).toBeVisible();
   });
