@@ -3,16 +3,24 @@ stages:
 
 e2e-tests:
   stage: test
-  image: node:24-bookworm
+  image: mcr.microsoft.com/playwright:v1.60.0-noble
   before_script:
     - npm install -g yarn
     - yarn install --frozen-lockfile
-    - yarn playwright install --with-deps
   script:
     - yarn run e2e
+  after_script:
+    - mkdir -p playwright-report test-results
+    - test -f playwright-report/index.html || echo "Playwright report was not generated. Check the job log for the failure before the test report step." > playwright-report/README.txt
+    - test -f test-results/README.txt || echo "No Playwright test result files were generated." > test-results/README.txt
+    - test -f results.xml || echo '<testsuites></testsuites>' > results.xml
   artifacts:
     when: always
     name: "Relatorio de Testes E2E"
     paths:
       - playwright-report/
+      - test-results/
+      - results.xml
+    reports:
+      junit: results.xml
     expire_in: 7 days
